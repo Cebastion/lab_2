@@ -1,6 +1,3 @@
-# lab02_main.py
-# Основна програма для обробки показників Фітнес-браслета
-
 import stats_module as sm
 
 def parse_input(input_str):
@@ -43,17 +40,20 @@ def process_measurements(title, data_dict, threshold):
     else:
         print("Різких перепадів немає.")
 
+def process_all(data):
+    """Обробляє усі три види даних послідовно (одна гілка)"""
+    process_measurements("Pulse (уд/хв)", data["pulse"], 30)
+    process_measurements("Steps (од)", data["steps"], 500)
+    process_measurements("Calories (ккал)", data["calories"], 50)
+
 def main():
     print("=== Обробка показів системи 'Фітнес-браслет' ===")
     
-    pulse_input = input("Введіть пульс (уд/хв): ")
-    steps_input = input("Введіть кроки (од): ")
-    calories_input = input("Введіть калорії (ккал): ")
+    pulse_list = parse_input(input("Введіть пульс (уд/хв): "))
+    steps_list = parse_input(input("Введіть кроки (од): "))
+    calories_list = parse_input(input("Введіть калорії (ккал): "))
 
-    pulse_list = parse_input(pulse_input)
-    steps_list = parse_input(steps_input)
-    calories_list = parse_input(calories_input)
-
+    # Перевірка коректності введених даних
     if not pulse_list or not steps_list or not calories_list:
         print("Помилка введення. Програма завершена.")
         return
@@ -64,9 +64,8 @@ def main():
 
     data = create_data_dict(pulse_list, steps_list, calories_list)
 
-    process_measurements("Pulse (уд/хв)", data["pulse"], 30)
-    process_measurements("Steps (од)", data["steps"], 500)
-    process_measurements("Calories (ккал)", data["calories"], 50)
+
+    process_all(data)
 
 if __name__ == "__main__":
     main()

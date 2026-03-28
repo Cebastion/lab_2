@@ -1,6 +1,3 @@
-# stats_module.py
-# Модуль із підпрограмами для статистичної обробки показників
-
 import statistics
 
 def get_average(data_dict):
